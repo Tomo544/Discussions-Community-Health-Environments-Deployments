@@ -11,6 +11,8 @@ export default function App() {
   const flipCoin = () => {
     if (gameOver) return
 
+    const betNumber = Number(bet)
+
     if (bet <= 0 || bet > balance) {
       setMessage('Ungültiger Einsatz')
       return
@@ -25,7 +27,7 @@ export default function App() {
     }
 
     if (choice === result) {
-      const newBalance = balance + bet
+      const newBalance = balance + betNumber
       setBalance(newBalance)
       setMessage(`Richtig! +${bet}`)
 
@@ -34,7 +36,7 @@ export default function App() {
         setMessage('🎉 Du hast gewonnen! Ziel erreicht (50+)')
       }
     } else {
-      const newBalance = balance - bet
+      const newBalance = balance - betNumber
       setBalance(newBalance)
       setMessage(`Falsch! -${bet}`)
 
@@ -58,6 +60,7 @@ export default function App() {
                 : '🧪 TEST VERSION (Staging)'}
         </h3>
 
+
       <h2>Kapital: {balance} CHF</h2>
 
       <p>Ziel: 50 CHF erreichen</p>
@@ -73,7 +76,18 @@ export default function App() {
           value={bet}
           min="1"
           max={balance}
-          onChange={(e) => setBet(Number(e.target.value))}
+          onChange={(e) => {
+              const value = e.target.value
+
+              // erlaubt leeres Feld
+              if (value === "") {
+                  setBet("")
+                  return
+              }
+
+              // entfernt führende Nullen (08 → 8)
+              setBet(String(Number(value)))
+          }}
         />
       </div>
 
