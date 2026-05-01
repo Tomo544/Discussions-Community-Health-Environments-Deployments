@@ -65,7 +65,18 @@ export default function App() {
           value={bet}
           min="1"
           max={balance}
-          onChange={(e) => setBet(Number(e.target.value))}
+          onChange={(e) => {
+              const value = e.target.value
+
+              // erlaubt leeres Feld
+              if (value === "") {
+                  setBet("")
+                  return
+              }
+
+              // entfernt führende Nullen (08 → 8)
+              setBet(String(Number(value)))
+          }}
         />
       </div>
 
