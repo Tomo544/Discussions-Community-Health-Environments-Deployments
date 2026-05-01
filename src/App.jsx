@@ -91,9 +91,10 @@ export default function App() {
         />
       </div>
 
-      <button onClick={flipCoin} disabled={gameOver}>
-        Wetten
-      </button>
+
+        <button onClick={flipCoin} disabled={gameOver || !choice}>
+            Wetten
+        </button>
 
       <h2>{coin && `Ergebnis: ${coin}`}</h2>
       <p>{message}</p>
