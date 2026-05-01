@@ -48,6 +48,7 @@ export default function App() {
   return (
     <div style={{ textAlign: 'center', marginTop: 80 }}>
       <h1>Coinflip Betting Game</h1>
+      <h3 style={{ color: 'green' }}>✅ LIVE VERSION (Production)</h3>
 
       <h2>Kapital: {balance} CHF</h2>
 
