@@ -8,7 +8,7 @@ export default function App() {
     const [message, setMessage] = useState('')
     const [gameOver, setGameOver] = useState(false)
 
-    // 🌍 ENV (Vercel)
+    // 🌍 ENV (Vercel_Test)
     const env = import.meta.env.VITE_APP_ENV
 
     const isProd = env === 'production'
