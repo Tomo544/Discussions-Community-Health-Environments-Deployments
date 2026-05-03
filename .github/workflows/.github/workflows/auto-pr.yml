@@ -5,23 +5,27 @@ on:
     branches:
       - staging
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   create-pr:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          branch: staging
-          title: "🎮 Game Update: staging → main"
-          body: |
-            Automatischer PR aus staging
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base main \
+            --head staging \
+            --title "🎮 Auto PR: staging → main" \
+            --body "Automatisch erstellt aus staging
 
-            ✔ Features getestet im Preview (Vercel)
-            ✔ Ready for production merge
+            ✔ Features getestet in Preview
+            ✔ Ready for production"
