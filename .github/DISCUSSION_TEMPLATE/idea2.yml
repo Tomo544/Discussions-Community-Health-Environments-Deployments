@@ -1,0 +1,35 @@
+name: "💡 Feature-Idee"
+description: "Schlage ein neues Feature oder eine Verbesserung vor"
+title: "[Feature]: "
+labels:
+  - "enhancement"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🚀 Danke für deine Idee!
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Welches Problem soll gelöst werden?"
+      placeholder: "Aktuell ist das Problem..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Dein Lösungsvorschlag"
+      placeholder: "Ich würde mir wünschen..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: "Weitere Infos"
+      placeholder: "Optional..."
+    validations:
+      required: false
