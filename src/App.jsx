@@ -8,6 +8,13 @@ export default function App() {
     const [message, setMessage] = useState('')
     const [gameOver, setGameOver] = useState(false)
 
+    // 🌍 ENV (Vercel)
+    const env = import.meta.env.VITE_APP_ENV
+
+    const isProd = env === 'production'
+    const isPreview = env === 'preview'
+    const isDev = env === 'development'
+
     const flipCoin = () => {
         if (gameOver) return
 
@@ -47,7 +54,6 @@ export default function App() {
         }
     }
 
-    // 🔁 RESET / RETRY FUNCTION
     const resetGame = () => {
         setBalance(10)
         setBet(1)
@@ -61,14 +67,17 @@ export default function App() {
         <div style={{ textAlign: 'center', marginTop: 80 }}>
             <h1>Coinflip Betting Game</h1>
 
+            {/* 🌍 ENV BADGE */}
             <h3
                 style={{
-                    color: process.env.NODE_ENV === 'production' ? 'green' : 'orange'
+                    color: isProd ? 'green' : isPreview ? 'orange' : 'gray'
                 }}
             >
-                {process.env.NODE_ENV === 'production'
-                    ? '✅ LIVE VERSION (Production)'
-                    : '🧪 TEST VERSION (Staging)'}
+                {isProd
+                    ? '🚀 Coinflip Betting Game ✅ LIVE VERSION (Production)'
+                    : isPreview
+                        ? '🧪 TEST VERSION (Preview / Staging)'
+                        : '🛠 Development Mode'}
             </h3>
 
             <h2>Kapital: {balance} CHF</h2>
@@ -88,13 +97,11 @@ export default function App() {
                     onChange={(e) => {
                         const value = e.target.value
 
-                        // erlaubt leeres Feld
                         if (value === '') {
                             setBet('')
                             return
                         }
 
-                        // entfernt führende Nullen
                         setBet(String(Number(value)))
                     }}
                 />
