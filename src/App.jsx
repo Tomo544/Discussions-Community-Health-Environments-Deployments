@@ -13,7 +13,7 @@ export default function App() {
 
         const betNumber = Number(bet)
 
-        if (betNumber <= 0 || betNumber > balance) {
+        if (bet <= 0 || bet > balance) {
             setMessage('Ungültiger Einsatz')
             return
         }
@@ -29,7 +29,7 @@ export default function App() {
         if (choice === result) {
             const newBalance = balance + betNumber
             setBalance(newBalance)
-            setMessage(`Richtig! +${betNumber}`)
+            setMessage(`Richtig! +${bet}`)
 
             if (newBalance >= 50) {
                 setGameOver(true)
@@ -38,7 +38,7 @@ export default function App() {
         } else {
             const newBalance = balance - betNumber
             setBalance(newBalance)
-            setMessage(`Falsch! -${betNumber}`)
+            setMessage(`Falsch! -${bet}`)
 
             if (newBalance <= 0) {
                 setGameOver(true)
@@ -47,31 +47,13 @@ export default function App() {
         }
     }
 
-    // 🔁 RESET / RETRY FUNCTION
-    const resetGame = () => {
-        setBalance(10)
-        setBet(1)
-        setChoice(null)
-        setCoin(null)
-        setMessage('')
-        setGameOver(false)
-    }
-
     return (
         <div style={{ textAlign: 'center', marginTop: 80 }}>
             <h1>Coinflip Betting Game</h1>
 
-            <h3
-                style={{
-                    color: process.env.NODE_ENV === 'production' ? 'green' : 'orange'
-                }}
-            >
-                {process.env.NODE_ENV === 'production'
-                    ? '✅ LIVE VERSION (Production)'
-                    : '🧪 TEST VERSION (Staging)'}
-            </h3>
 
             <h2>Kapital: {balance} CHF</h2>
+
             <p>Ziel: 50 CHF erreichen</p>
 
             <div style={{ margin: 20 }}>
@@ -89,16 +71,17 @@ export default function App() {
                         const value = e.target.value
 
                         // erlaubt leeres Feld
-                        if (value === '') {
-                            setBet('')
+                        if (value === "") {
+                            setBet("")
                             return
                         }
 
-                        // entfernt führende Nullen
+                        // entfernt führende Nullen (08 → 8)
                         setBet(String(Number(value)))
                     }}
                 />
             </div>
+
 
             <button onClick={flipCoin} disabled={gameOver || !choice}>
                 Wetten
@@ -107,14 +90,7 @@ export default function App() {
             <h2>{coin && `Ergebnis: ${coin}`}</h2>
             <p>{message}</p>
 
-            {gameOver && (
-                <div style={{ marginTop: 20 }}>
-                    <h3>Spiel beendet</h3>
-                    <button onClick={resetGame}>
-                        🔁 Retry Game
-                    </button>
-                </div>
-            )}
+            {gameOver && <h3>Spiel beendet</h3>}
         </div>
     )
 }
