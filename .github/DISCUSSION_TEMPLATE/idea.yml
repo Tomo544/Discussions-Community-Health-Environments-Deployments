@@ -1,0 +1,18 @@
+name: 💡 Idee
+description: Teile eine neue Idee
+title: "[Idee]: "
+labels: ["idea"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Deine Idee
+      placeholder: "Ich würde vorschlagen..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Vorteile
+      placeholder: "Warum wäre das nützlich?"
