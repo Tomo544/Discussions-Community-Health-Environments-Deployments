@@ -1,0 +1,43 @@
+name: "🆘 Help / Support"
+description: "Ask for help, debugging or troubleshooting"
+title: "[Help]: Add a title"
+labels:
+  - "help wanted"
+
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Title"
+      description: "Short summary of your issue"
+      placeholder: "e.g. App crashes on startup"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Summary"
+      description: "What do you need help with?"
+      placeholder: "Explain your problem briefly..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: "Additional information"
+      description: "Any code snippets, error messages, or dependency details?"
+      placeholder: |
+        Paste errors, logs, or code here...
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "Example / Reproduction"
+      description: "A minimal reproduction or link is helpful for debugging"
+      placeholder: "Steps to reproduce or link to repo..."
+    validations:
+      required: false
