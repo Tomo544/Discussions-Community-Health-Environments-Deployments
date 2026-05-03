@@ -1,0 +1,27 @@
+name: Auto PR staging → main
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: staging
+          title: "🎮 Game Update: staging → main"
+          body: |
+            Automatischer PR aus staging
+
+            ✔ Features getestet im Preview (Vercel)
+            ✔ Ready for production merge
