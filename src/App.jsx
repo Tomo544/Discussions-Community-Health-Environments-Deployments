@@ -1,105 +1,120 @@
 import { useState } from 'react'
 
 export default function App() {
-  const [balance, setBalance] = useState(10)
-  const [bet, setBet] = useState(1)
-  const [choice, setChoice] = useState(null)
-  const [coin, setCoin] = useState(null)
-  const [message, setMessage] = useState('')
-  const [gameOver, setGameOver] = useState(false)
+    const [balance, setBalance] = useState(10)
+    const [bet, setBet] = useState(1)
+    const [choice, setChoice] = useState(null)
+    const [coin, setCoin] = useState(null)
+    const [message, setMessage] = useState('')
+    const [gameOver, setGameOver] = useState(false)
 
-  const flipCoin = () => {
-    if (gameOver) return
+    const flipCoin = () => {
+        if (gameOver) return
 
-    const betNumber = Number(bet)
+        const betNumber = Number(bet)
 
-    if (bet <= 0 || bet > balance) {
-      setMessage('Ungültiger Einsatz')
-      return
+        if (betNumber <= 0 || betNumber > balance) {
+            setMessage('Ungültiger Einsatz')
+            return
+        }
+
+        const result = Math.random() < 0.5 ? 'Kopf' : 'Zahl'
+        setCoin(result)
+
+        if (!choice) {
+            setMessage('Bitte Kopf oder Zahl wählen')
+            return
+        }
+
+        if (choice === result) {
+            const newBalance = balance + betNumber
+            setBalance(newBalance)
+            setMessage(`Richtig! +${betNumber}`)
+
+            if (newBalance >= 50) {
+                setGameOver(true)
+                setMessage('🎉 Du hast gewonnen! Ziel erreicht (50+)')
+            }
+        } else {
+            const newBalance = balance - betNumber
+            setBalance(newBalance)
+            setMessage(`Falsch! -${betNumber}`)
+
+            if (newBalance <= 0) {
+                setGameOver(true)
+                setMessage('💀 Game Over – kein Geld mehr')
+            }
+        }
     }
 
-    const result = Math.random() < 0.5 ? 'Kopf' : 'Zahl'
-    setCoin(result)
-
-    if (!choice) {
-      setMessage('Bitte Kopf oder Zahl wählen')
-      return
+    // 🔁 RESET / RETRY FUNCTION
+    const resetGame = () => {
+        setBalance(10)
+        setBet(1)
+        setChoice(null)
+        setCoin(null)
+        setMessage('')
+        setGameOver(false)
     }
 
-    if (choice === result) {
-      const newBalance = balance + betNumber
-      setBalance(newBalance)
-      setMessage(`Richtig! +${bet}`)
+    return (
+        <div style={{ textAlign: 'center', marginTop: 80 }}>
+            <h1>Coinflip Betting Game</h1>
 
-      if (newBalance >= 50) {
-        setGameOver(true)
-        setMessage('🎉 Du hast gewonnen! Ziel erreicht (50+)')
-      }
-    } else {
-      const newBalance = balance - betNumber
-      setBalance(newBalance)
-      setMessage(`Falsch! -${bet}`)
+            <h3
+                style={{
+                    color: process.env.NODE_ENV === 'production' ? 'green' : 'orange'
+                }}
+            >
+                {process.env.NODE_ENV === 'production'
+                    ? '✅ LIVE VERSION (Production)'
+                    : '🧪 TEST VERSION (Staging)'}
+            </h3>
 
-      if (newBalance <= 0) {
-        setGameOver(true)
-        setMessage('💀 Game Over – kein Geld mehr')
-      }
-    }
-  }
+            <h2>Kapital: {balance} CHF</h2>
+            <p>Ziel: 50 CHF erreichen</p>
 
-  return (
-    <div style={{ textAlign: 'center', marginTop: 80 }}>
-      <h1>Coinflip Betting Game</h1>
-        <h3
-            style={{
-                color: process.env.NODE_ENV === 'production' ? 'green' : 'orange'
-            }}
-        >
-            {process.env.NODE_ENV === 'production'
-                ? '✅ LIVE VERSION (Production)'
-                : '🧪 TEST VERSION (Staging)'}
-        </h3>
+            <div style={{ margin: 20 }}>
+                <button onClick={() => setChoice('Kopf')}>Kopf</button>
+                <button onClick={() => setChoice('Zahl')}>Zahl</button>
+            </div>
 
+            <div>
+                <input
+                    type="number"
+                    value={bet}
+                    min="1"
+                    max={balance}
+                    onChange={(e) => {
+                        const value = e.target.value
 
-      <h2>Kapital: {balance} CHF</h2>
+                        // erlaubt leeres Feld
+                        if (value === '') {
+                            setBet('')
+                            return
+                        }
 
-      <p>Ziel: 50 CHF erreichen</p>
+                        // entfernt führende Nullen
+                        setBet(String(Number(value)))
+                    }}
+                />
+            </div>
 
-      <div style={{ margin: 20 }}>
-        <button onClick={() => setChoice('Kopf')}>Kopf</button>
-        <button onClick={() => setChoice('Zahl')}>Zahl</button>
-      </div>
+            <button onClick={flipCoin} disabled={gameOver || !choice}>
+                Wetten
+            </button>
 
-      <div>
-        <input
-          type="number"
-          value={bet}
-          min="1"
-          max={balance}
-          onChange={(e) => {
-              const value = e.target.value
+            <h2>{coin && `Ergebnis: ${coin}`}</h2>
+            <p>{message}</p>
 
-              // erlaubt leeres Feld
-              if (value === "") {
-                  setBet("")
-                  return
-              }
-
-              // entfernt führende Nullen (08 → 8)
-              setBet(String(Number(value)))
-          }}
-        />
-      </div>
-
-
-        <button onClick={flipCoin} disabled={gameOver || !choice}>
-            Wetten
-        </button>
-
-      <h2>{coin && `Ergebnis: ${coin}`}</h2>
-      <p>{message}</p>
-
-      {gameOver && <h3>Spiel beendet</h3>}
-    </div>
-  )
+            {gameOver && (
+                <div style={{ marginTop: 20 }}>
+                    <h3>Spiel beendet</h3>
+                    <button onClick={resetGame}>
+                        🔁 Retry Game
+                    </button>
+                </div>
+            )}
+        </div>
+    )
 }
