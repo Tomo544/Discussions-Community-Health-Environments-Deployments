@@ -1,9 +1,3 @@
-name: "💡 Feature-Idee"
-description: "Schlage ein neues Feature oder eine Verbesserung vor"
-title: "[Feature]: "
-labels:
-  - "enhancement"
-
 body:
   - type: markdown
     attributes:
