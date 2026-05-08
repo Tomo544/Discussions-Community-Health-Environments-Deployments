@@ -1,9 +1,3 @@
-name: "Frage stellen"
-description: "Stelle eine allgemeine Frage an die Community"
-title: "[Frage]: "
-labels:
-  - "question"
-
 body:
   - type: markdown
     attributes:
