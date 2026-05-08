@@ -1,9 +1,3 @@
-name: "🆘 Help / Support"
-description: "Ask for help, debugging or troubleshooting"
-title: "[Help]: Add a title"
-labels:
-  - "help wanted"
-
 body:
   - type: input
     id: title
