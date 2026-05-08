@@ -1,7 +1,3 @@
-name: 💡 Idee
-description: Teile eine neue Idee
-title: "[Idee]: "
-labels: ["idea"]
 body:
   - type: textarea
     id: idea
